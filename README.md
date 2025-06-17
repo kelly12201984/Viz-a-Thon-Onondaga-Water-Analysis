@@ -24,10 +24,13 @@ These plots reveal:
 - R, `ggplot2`, `dplyr`, `tidyr`  
 - Adobe Illustrator (poster layout)
 
-## 👩‍💻 Role
-Led data prep, exploratory analysis, and final poster design. Selected color schemes and visual encodings to emphasize depth variation.
+## 👩‍💻 My Role  
+I independently completed all phases of this project — from exploratory data cleaning to final visual design. I chose the visual encodings, built the plots in R, and arranged the final poster layout to meet the Viz-a-Thon deadline.
+
 
 ## 🎯 Outcome
 Final visualization submitted as part of the Syracuse Viz-a-Thon 2024.  
 Theme: *“Surface to Seafloor — What Lies Beneath”*
+### Final Viz-a-Thon Poster  
+![Viz-a-Thon Poster](vizathon_poster.png)
 
