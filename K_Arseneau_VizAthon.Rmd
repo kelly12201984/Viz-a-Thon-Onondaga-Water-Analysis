@@ -1,0 +1,119 @@
+---
+title: "viz a thon"
+author: "Kelly Arseneau"
+date: "2024-09-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Check if the 'readxl' package is installed; if not, install it
+if(!require(readxl)) {
+  install.packages("readxl", dependencies = TRUE)
+  library(readxl)
+} else {
+  library(readxl)
+}
+# Define the file path
+file_path <- "C:/Users/kelly/Downloads/Copy of BuoyData_2_2.xlsx"
+
+# Reload the Excel file without skipping any rows
+buoy_data <- read_excel(file_path)
+
+# Explore the data
+dim(buoy_data)        # Dimensions of the data
+colnames(buoy_data)   # Column names
+str(buoy_data)        # Structure of the data
+head(buoy_data)       # First few rows
+
+
+```
+
+
+```{r}
+# Load necessary libraries
+if(!require(ggplot2)) {
+  install.packages("ggplot2", dependencies = TRUE)
+  library(ggplot2)
+}
+
+# 1. Save the "Water Temperature vs Depth over Time" plot as a PDF
+ggplot(buoy_data, aes(x = DATE_TIME, y = T_DEGC, color = as.factor(DEPTH_m))) +
+  geom_line() +
+  labs(title = "Water Temperature at Different Depths Over Time",
+       x = "Date and Time",
+       y = "Water Temperature (°C)",
+       color = "Depth (m)") +
+  theme_minimal()
+
+ggsave("Water_Temperature_vs_Depth.pdf", width = 8, height = 6)
+
+# 2. Save the "Correlation Between Oxygen Levels and pH" plot as a PDF
+ggplot(buoy_data, aes(x = pH, y = Dox_mg_L, color = as.factor(DEPTH_m))) +
+  geom_point(alpha = 0.7) +
+  labs(title = "Correlation Between Oxygen Levels and pH at Different Depths",
+       x = "pH Level",
+       y = "Dissolved Oxygen (mg/L)",
+       color = "Depth (m)") +
+  theme_minimal()
+
+ggsave("Oxygen_vs_pH_Correlation.pdf", width = 8, height = 6)
+
+```
+
+```{r}
+# 1. Histogram: Distribution of Water Temperature (T_DEGC)
+ggplot(buoy_data, aes(x = T_DEGC)) +
+  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of Water Temperature",
+       x = "Water Temperature (°C)",
+       y = "Frequency") +
+  theme_minimal()
+
+ggsave("Water_Temperature_Distribution.pdf", width = 6, height = 4)
+
+# 2. Boxplot: Distribution of pH Levels
+ggplot(buoy_data, aes(y = pH)) +
+  geom_boxplot(fill = "lightgreen", color = "black") +
+  labs(title = "Distribution of pH Levels",
+       y = "pH") +
+  theme_minimal()
+
+ggsave("pH_Distribution.pdf", width = 6, height = 4)
+
+```
+
+
+```{r}
+# Density Plot: Distribution of Water Temperature (T_DEGC)
+ggplot(buoy_data, aes(x = T_DEGC)) +
+  geom_density(fill = "lightblue", color = "black", alpha = 0.7) +
+  labs(title = "Density of Water Temperature",
+       x = "Water Temperature (°C)",
+       y = "Density") +
+  theme_minimal()
+
+ggsave("Water_Temperature_Density.pdf", width = 6, height = 4)
+
+```
+
+
+```{r}
+# Scatter plot of saltiness (SC_us_cm) vs precipitation (PRECIP_in)
+ggplot(buoy_data, aes(x = PRECIP_in, y = SC_us_cm)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Adding a linear regression line
+  labs(title = "Correlation Between Saltiness (SC_us_cm) and Precipitation",
+       x = "Precipitation (inches)",
+       y = "Specific Conductance (μS/cm)") +
+  theme_minimal()
+
+# Calculate the correlation coefficient
+correlation <- cor(buoy_data$PRECIP_in, buoy_data$SC_us_cm, use = "complete.obs")
+correlation  # This will display the correlation coefficient
+
+```
+
